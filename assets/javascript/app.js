@@ -7,6 +7,15 @@ function Mahasiswa(npm, nama, prodi) {
     this.prodi = prodi;
 }
 
+const renderTable = (data) => {
+    const newTr = document.createElement("tr");
+    newTr.innerHTML = `<td>${data.npm}</td>
+                        <td>${data.nama}</td>
+                        <td>${data.prodi}</td>`;
+
+    document.querySelector(".data-table").appendChild(newTr);
+}
+
 Mahasiswa.prototype.addData = (e) => {
     e.preventDefault();
 
@@ -37,6 +46,8 @@ Mahasiswa.prototype.addData = (e) => {
 
     const newMhs = new Mahasiswa(npm, nama, prodi);
     data.push(newMhs);
+    renderTable(newMhs);
+
     localStorage.setItem("data", JSON.stringify(data));
 }
 
@@ -47,7 +58,9 @@ Mahasiswa.prototype.getData = () => {
         data = JSON.parse(localStorage.getItem("data"));
     }
 
-    
+    data.forEach(data => {
+        renderTable(data);
+    });
 }
 
 submitBtn.addEventListener("click", Mahasiswa.prototype.addData);
